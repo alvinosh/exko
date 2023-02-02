@@ -1,7 +1,8 @@
 <script lang="ts">
   import { onMount } from "svelte";
-  import { FRAG_SHADER } from "./fragShader";
   import { ShaderCanvas } from "./canvasShader";
+
+  import FRAG_SHADER from "./testshader.js";
 
   let canvas: HTMLCanvasElement;
 
@@ -10,15 +11,14 @@
   onMount(() => {
     const shaderCanvas = new ShaderCanvas(canvas);
     shaderCanvas.setShader(FRAG_SHADER);
-    shaderCanvas.setUniform("iResolution", [
-      canvas.width * window.devicePixelRatio,
-      canvas.height * window.devicePixelRatio,
-      0,
-    ]);
-
     const animate = (time: number = 0) => {
-      shaderCanvas.setUniform("iTime", time);
-      shaderCanvas.render();
+      if (canvas) {
+        const WIDTH = Math.floor(canvas.getBoundingClientRect().width);
+        const HEIGHT = Math.floor(canvas.getBoundingClientRect().height);
+        shaderCanvas.setUniform("iResolution", [WIDTH, HEIGHT, 0]);
+        shaderCanvas.setUniform("iTime", time);
+        shaderCanvas.render();
+      }
       requestAnimationFrame(() => animate(time + STEP));
     };
 
@@ -31,7 +31,7 @@
 <style>
   #canvas {
     z-index: 0;
-    opacity: 0.1;
+    opacity: 1;
     position: fixed;
     top: 0;
     left: 0;
