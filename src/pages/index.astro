@@ -8,6 +8,16 @@ import Main from "../layouts/Main.svelte";
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width" />
     <title>EXKO</title>
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+    </style>
   </head>
   <body>
     <Main client:idle />
